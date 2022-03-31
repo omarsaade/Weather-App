@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<!-- Coding By CodingNepal - youtube.com/codingnepal -->
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Weather App in JavaScript | CodingNepal</title>
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Linking BoxIcon for Icon -->
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+    <!-- wrapper -->
+    <div class="wrapper">
+        <!-- visible part -->
+        <header><i class='bx bx-left-arrow-alt'></i>Weather App</header>
+
+        <!-- tahet el weather app -->
+        <section class="input-part">
+            <p class="info-txt"></p>
+            <div class="content">
+                <!-- https://www.w3schools.com/tags/att_global_spellcheck.asp -->
+                <!-- The spellcheck attribute specifies whether the element is to have its spelling and grammar checked or not. -->
+                <!-- false	The element is not to be checked -->
+                <input type="text" spellcheck="false" placeholder="Enter city name" required>
+                <div class="separator"></div>
+                <button>Get Device Location</button>
+            </div>
+        </section>
+        <!-- second part -->
+
+        <!-- invisible part/ display:none -->
+        <section class="weather-part">
+            <!-- img at the top -->
+            <img src="" alt="Weather Icon">
+            <div class="temp">
+                <!-- tahta -->
+                <!-- 19°C -->
+                <span class="numb">_</span>
+                <span class="deg">°</span>C
+            </div>
+            <!-- Stormy -->
+            <div class="weather">_ _</div>
+            <div class="location">
+                <!-- logo temp -->
+                <i class='bx bx-map'></i>
+                <!-- tokyo , japan -->
+                <span>_, _</span>
+            </div>
+            <!-- last div / horizantally -->
+            <div class="bottom-details">
+
+                <!-- first part -->
+                <div class="column feels">
+                    <i class='bx bxs-thermometer'></i>
+                    <div class="details">
+                        <div class="temp">
+                            <!-- 20°C -->
+                            <span class="numb-2">_</span>
+                            <span class="deg">°</span>C
+                        </div>
+                        <!-- under 20°C -->
+                        <p>Feels like</p>
+                    </div>
+                </div>
+                <!-- second part -->
+                <div class="column humidity">
+                    <i class='bx bxs-droplet-half'></i>
+                    <div class="details">
+                        <!-- 96% -->
+                        <span>_</span>
+                        <p>Humidity</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
