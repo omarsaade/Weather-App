@@ -2,8 +2,10 @@ const wrapper = document.querySelector(".wrapper");//div kella
 const inputPart = wrapper.querySelector(".input-part");//section tahet el weather
 const infoTxt = inputPart.querySelector(".info-txt");// p li byezhar fia success or error
 const inputField = inputPart.querySelector("input");//input
+const locationBtn = inputPart.querySelector("button");
 
 const apikey = "22aeaf003812a56b4e2b4b7292a262a9";
+let api;
 // form.onsubmit = (e) => {
 //     e.preventDefault();//preventing form from submitting
 // }
@@ -32,6 +34,44 @@ inputField.addEventListener("keyup", e => {
         requestApi(inputField.value);
     }
 });
+
+locationBtn.addEventListener("click", () => {
+    if (navigator.geolocation) { // If browser support geolocation api
+        navigator.geolocation.getCurrentPosition(onSuccess, onError);
+    } else {
+
+        alert("your browser not support geolocation api");
+    }
+})
+
+function onSuccess(position) {
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment
+    // const { latitude, longitude } = GeolocationCoordinates {latitude: 33.8937913, longitude: 35.5017767}
+    // Destructuring assignment
+    // position.coords.latitude
+    // position.coords.longitude
+    const { latitude, longitude } = position.coords;//getting lat and lon of the user device from coords obj 
+    api = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apikey}`;
+
+    fetchData();
+}
+
+
+function onError(error) {
+    infoTxt.innerHTML = error.message;
+    infoTxt.classList.add("error");
+}
+
+
+
+
+
+
+
+
+
+
+
 // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
 // Fetch API هي واجهة حديثة تسمح لك بتقديم طلبات HTTP إلى الخوادم من متصفحات الويب.
 // The Fetch API is a modern interface that allows you to make HTTP requests to servers from web browsers.
@@ -50,7 +90,11 @@ inputField.addEventListener("keyup", e => {
 
 
 function requestApi(city) {
-    let api = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apikey}`;
+    api = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apikey}`;
+    fetchData();
+}
+
+function fetchData() {
     infoTxt.innerHTML = "Getting weather details...";
     infoTxt.classList.add("pending");
     // fetch(api).then(response => console.log(response.json())); // btred promise
