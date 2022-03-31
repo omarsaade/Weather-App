@@ -3,6 +3,8 @@ const inputPart = wrapper.querySelector(".input-part");//section tahet el weathe
 const infoTxt = inputPart.querySelector(".info-txt");// p li byezhar fia success or error
 const inputField = inputPart.querySelector("input");//input
 const locationBtn = inputPart.querySelector("button");
+const wIcon = document.querySelector(".weather-part img");
+const arrowBack = wrapper.querySelector("header i");
 
 const apikey = "22aeaf003812a56b4e2b4b7292a262a9";
 let api;
@@ -51,7 +53,8 @@ function onSuccess(position) {
     // position.coords.latitude
     // position.coords.longitude
     const { latitude, longitude } = position.coords;//getting lat and lon of the user device from coords obj 
-    api = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apikey}`;
+    // api = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apikey}`;
+    api = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apikey}`;
 
     fetchData();
 }
@@ -108,5 +111,57 @@ function fetchData() {
 }
 
 function weatherDetails(info) {
-    console.log(info);
+    if (info.cod == "404") {
+        infoTxt.innerHTML = `${inputField.value} isn't a valid city name`;
+        infoTxt.classList.replace("pending", "error");//shil el tnen
+    } else {
+        //let's get required properties value from the info object
+        const city = info.name;
+        const country = info.sys.country;
+        const { description, id } = info.weather[0];
+        const { feels_like, humidity, temp } = info.main;
+
+
+
+        if (id == 800) {
+            wIcon.src = "icons/clear.svg";
+        }
+        //using custom icon according to the id which api return us
+        if (id == 800) {
+            wIcon.src = "icons/clear.png";
+        } else if (id >= 200 && id <= 232) {
+            wIcon.src = "icons/storm.png";
+        } else if (id >= 600 && id <= 622) {
+            wIcon.src = "icons/snow.png";
+        } else if (id >= 701 && id <= 731) {
+            wIcon.src = "icons/mist.png";
+        } else if (id >= 800 && id <= 804) {
+            wIcon.src = "icons/clearsky.png";
+        } else if ((id >= 300 && id <= 321) || (id >= 500 && id <= 531)) {
+            wIcon.src = "icons/rain.png";
+        }
+
+
+
+
+        //let's pass these values to a particular html element
+        wrapper.querySelector(".temp .numb").innerText = Math.floor(temp);
+        wrapper.querySelector(".weather").innerText = description;
+        wrapper.querySelector(".location span").innerText = `${city}, ${country}`;
+        wrapper.querySelector(".temp .numb-2").innerText = Math.floor(feels_like);
+        wrapper.querySelector(".humidity span").innerText = `${humidity}%`;
+
+
+        infoTxt.classList.remove("pending", "error");
+        wrapper.classList.add("active");
+        console.log(info);
+    }
+
 }
+
+// https://openweathermap.org/weather-conditions
+//for icons
+
+arrowBack.addEventListener("click", () => {
+    wrapper.classList.remove("active");
+});
