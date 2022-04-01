@@ -2,9 +2,9 @@ const wrapper = document.querySelector(".wrapper");//div kella
 const inputPart = wrapper.querySelector(".input-part");//section tahet el weather
 const infoTxt = inputPart.querySelector(".info-txt");// p li byezhar fia success or error
 const inputField = inputPart.querySelector("input");//input
-const locationBtn = inputPart.querySelector("button");
-const wIcon = document.querySelector(".weather-part img");
-const arrowBack = wrapper.querySelector("header i");
+const locationBtn = inputPart.querySelector("button");//button
+const wIcon = document.querySelector(".weather-part img");//img
+const arrowBack = wrapper.querySelector("header i");//i ly hye back 
 
 const apikey = "22aeaf003812a56b4e2b4b7292a262a9";
 let api;
@@ -38,14 +38,32 @@ inputField.addEventListener("keyup", e => {
     }
 });
 
+
+
+//lal click
 locationBtn.addEventListener("click", () => {
     if (navigator.geolocation) { // If browser support geolocation api
-        navigator.geolocation.getCurrentPosition(onSuccess, onError);
+        navigator.geolocation.getCurrentPosition(onSuccess, onError); //the getcuurentPosition() method is used to get the current position of the device.
     } else {
 
         alert("your browser not support geolocation api");
     }
 })
+
+
+// Check if Geolocation is supported
+// If supported, run the getCurrentPosition() method. If not, display a message to the user
+// If the getCurrentPosition() method is successful, it returns a coordinates object to the function specified in the parameter (showPosition)
+// The showPosition() function outputs the Latitude and Longitude
+
+
+
+
+
+
+
+
+
 
 function onSuccess(position) {
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment
@@ -61,14 +79,18 @@ function onSuccess(position) {
 }
 
 
+// In the code, you have seen a demo of this weather app and how I built this project using HTML CSS & JavaScript.
+//  I’ve used OpenWeatherMap API to get the weather details of the user entered city or user’s current location.
+
+
+
+
+
+
 function onError(error) {
     infoTxt.innerHTML = error.message;
     infoTxt.classList.add("error");
 }
-
-
-
-
 
 
 
@@ -103,7 +125,7 @@ function fetchData() {
     infoTxt.classList.add("pending");
     // fetch(api).then(response => console.log(response.json())); // btred promise
     // The Promise object represents the eventual completion (or failure) of an asynchronous operation and its resulting value.
-    //getting api response and returning it with parsing inot js obj and in other
+    //getting api response and returning it with parsing into js obj and in other
     //then function calling wetherDetails function with passing api result as an argument
     // fetch(api)
     //     .then(response => response.json())
@@ -111,10 +133,11 @@ function fetchData() {
     fetch(api).then(response => response.json()).then(result => weatherDetails(result));
 }
 
+//baadna bel input enter
 function weatherDetails(info) {
     if (info.cod == "404") {
         infoTxt.innerHTML = `${inputField.value} isn't a valid city name`;
-        infoTxt.classList.replace("pending", "error");//shil el tnen
+        infoTxt.classList.replace("pending", "error");//replace la pending bel error
     } else {
         //let's get required properties value from the info object
         const city = info.name;
@@ -124,12 +147,10 @@ function weatherDetails(info) {
 
 
 
-        if (id == 800) {
-            wIcon.src = "icons/clear.svg";
-        }
+
         //using custom icon according to the id which api return us
         if (id == 800) {
-            wIcon.src = "icons/clear.png";
+            wIcon.src = "icons/clearsky.png";
         } else if (id >= 200 && id <= 232) {
             wIcon.src = "icons/storm.png";
         } else if (id >= 600 && id <= 622) {
@@ -153,8 +174,8 @@ function weatherDetails(info) {
         wrapper.querySelector(".humidity span").innerText = `${humidity}%`;
 
 
-        infoTxt.classList.remove("pending", "error");
-        wrapper.classList.add("active");
+        infoTxt.classList.remove("pending", "error");//shill el 2 classes
+        wrapper.classList.add("active");//active
         console.log(info);
     }
 
